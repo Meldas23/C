@@ -132,21 +132,70 @@ void display_desk(struct desk new)
 
 struct desk change_desk(struct desk new_desk, int x, int y , int new_x, int new_y)
 {
-    if( (x % 2 == 0 && new_x % 2 != 0)  || (x%2 != 0 && new_x % 2 == 0) )
-    {
+    
+    
         if(new_desk.desk[y][x] != '#')
         { 
             if(new_y - y == 1 ||  y - new_y == 1)
             { 
-                struct desk funcdesk = new_desk; 
-                new_desk.desk[new_y][new_x] = funcdesk.desk[y][x];
-                new_desk.desk[y][x] = '#';
+                if( (x % 2 == 0 && new_x % 2 != 0)  || (x%2 != 0 && new_x % 2 == 0) )
+                {   
+                    if(new_desk.desk[new_y][new_x] != '0' && new_desk.desk[new_y][new_x] != 'o')       
+                    {    
+                        struct desk funcdesk = new_desk; 
+                        new_desk.desk[new_y][new_x] = funcdesk.desk[y][x];
+                        new_desk.desk[y][x] = '#';
+                    }
+                }
             }
+            if((new_y - y == 2 || y - new_y == 2) && (new_desk.desk[new_y][new_x] != 'o' && new_desk.desk[new_y][new_x] != '0') )
+            {
+                if(new_desk.desk[y+1][x+1] == '0')
+                {
+                    if(new_desk.desk[new_y-1][new_x-1] == '0')
+                    { 
+                        
+                        new_desk.desk[new_y][new_x] = new_desk.desk[y][x];
+                        new_desk.desk[y+1][x+1] = '#';
+                        new_desk.desk[y][x] = '#';
+                    } 
+                }   
+                if(new_desk.desk[y-1][x+1] == '0')
+                {
+                    if(new_desk.desk[new_y+1][new_x-1] == '0')
+                    { 
+                        
+                        new_desk.desk[new_y][new_x] = new_desk.desk[y][x];
+                        new_desk.desk[y-1][x+1] = '#';
+                        new_desk.desk[y][x] = '#';
+                    } 
+                }
+                if(new_desk.desk[y+1][x-1] == '0')
+                {
+                    if(new_desk.desk[new_y-1][new_x+1] == '0')
+                    { 
+                        
+                        new_desk.desk[new_y][new_x] = new_desk.desk[y][x];
+                        new_desk.desk[y+1][x-1] = '#';
+                        new_desk.desk[y][x] = '#';
+                    } 
+                }
+                if(new_desk.desk[y-1][x-1] == '0')
+                {
+                    if(new_desk.desk[new_y+1][new_x+1] == '0')
+                    { 
+                        
+                        new_desk.desk[new_y][new_x] = new_desk.desk[y][x];
+                        new_desk.desk[y-1][x-1] = '#';
+                        new_desk.desk[y][x] = '#';
+                    } 
+                }
+            
+            } 
         } 
-    } 
+     
     return new_desk;
 }
-
 int check_win(struct desk new_desk)
 {
     int win = 3;
@@ -169,5 +218,4 @@ int check_win(struct desk new_desk)
         win = 1;
 
     return win;
-
 }
